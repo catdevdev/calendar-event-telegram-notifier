@@ -6,7 +6,6 @@ import { Telegraf } from "telegraf";
 import { isTimeBetween } from "./helpers";
 
 const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
-
 const eventNotifications = new Map<string, boolean>();
 
 const sendMessage = (chatId: string, message: string, buttonLink: string) => {
