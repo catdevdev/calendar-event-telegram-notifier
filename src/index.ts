@@ -73,6 +73,12 @@ const checkEvents = () => {
   }
 };
 
+sendMessage(
+  "-1001800810778",
+  `123123`,
+  "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines"
+);
+
 console.log(moment(new Date()));
 console.log(moment().format("dddd"));
 
