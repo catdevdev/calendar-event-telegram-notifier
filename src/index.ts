@@ -6,6 +6,7 @@ const directEvents = ical.sync.parseICS(icsString);
 
 import moment from "moment";
 import { Telegraf } from "telegraf";
+
 import { isTimeBetween } from "./helpers";
 
 const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
