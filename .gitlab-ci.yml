@@ -1,7 +1,17 @@
 stages:
+  - build
   - deploy
 
+variables:
+  PM2_APP_NAME: "your_app_name" # Customize this with your app name
+
 build:
+  stage: build
+  script:
+    - npm install
+
+deploy:
   stage: deploy
   script:
-    - docker-compose up --build
+    - pm2 delete $PM2_APP_NAME || true # Delete existing app if running
+    - pm2 start npm --name $PM2_APP_NAME -- start
