@@ -4,4 +4,4 @@ stages:
 build:
   stage: deploy
   script:
-    - docker-compose up --build -d
+    - docker-compose up
