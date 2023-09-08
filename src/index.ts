@@ -4,8 +4,8 @@ import { icsString } from "./ics";
 
 const directEvents = ical.sync.parseICS(icsString);
 
-import { Markup, Telegraf } from "telegraf";
 import moment from "moment";
+import { Telegraf } from "telegraf";
 import { isTimeBetween } from "./helpers";
 
 const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
@@ -54,9 +54,9 @@ const checkEvents = () => {
         const formattedTo = moment(eventEnd).format("HH:mm");
 
         if (
-          (isTimeBetween(eventStart, eventEnd, new Date()),
+          isTimeBetween(eventStart, eventEnd, new Date()) &&
           moment().format("dddd") ===
-            moment(new Date(event.start)).format("dddd"))
+            moment(new Date(event.start)).format("dddd")
         ) {
           if (!eventNotifications.has(event.summary)) {
             sendMessage(
@@ -68,7 +68,6 @@ const checkEvents = () => {
             eventNotifications.set(event.summary, true);
           }
         } else {
-          console.log("test");
           if (eventNotifications.has(event.summary)) {
             eventNotifications.delete(event.summary);
           }
@@ -77,6 +76,9 @@ const checkEvents = () => {
     }
   }
 };
+
+console.log(moment(new Date()));
+console.log(moment().format("dddd"));
 
 setInterval(checkEvents, 10000);
 
