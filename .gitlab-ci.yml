@@ -1,24 +1,7 @@
 stages:
-  - build
   - deploy
 
-variables:
-  DOCKER_COMPOSE_IMAGE: "my_project:latest"
-
 build:
-  stage: build
-  script:
-    - docker build -t $DOCKER_COMPOSE_IMAGE .
-  artifacts:
-    paths:
-      - Dockerfile
-
-deploy:
   stage: deploy
   script:
-    - docker-compose down
-    - docker-compose up
-  dependencies:
-    - build
-  only:
-    - master
+    - docker-compose up --build -d
