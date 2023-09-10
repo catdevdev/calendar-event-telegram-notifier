@@ -82,6 +82,7 @@ sendMessage(
 console.log(moment(new Date()));
 console.log(moment().format("dddd"));
 console.log(moment().format("dddd"));
+console.log(moment().format("dddd"));
 
 setInterval(checkEvents, 10000);
 
