@@ -59,7 +59,7 @@ const checkEvents = () => {
         ) {
           if (!eventNotifications.has(event.summary)) {
             sendMessage(
-              "-1001800810778",
+              "-1001810089811",
               `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰</em>`,
               event.description
             );
@@ -81,11 +81,6 @@ sendMessage(
   `Deployed`,
   "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines"
 );
-
-console.log(moment(new Date()));
-console.log(moment().format("dddd"));
-console.log(moment().format("dddd"));
-console.log(moment().format("dddd"));
 
 setInterval(checkEvents, 10000);
 
