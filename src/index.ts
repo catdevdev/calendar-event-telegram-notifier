@@ -16,7 +16,7 @@ const sendMessage = (chatId: string, message: string, buttonLink: string) => {
         inline_keyboard: [
           [
             {
-              text: "Link",
+              text: "Ссылка",
               url: buttonLink,
             },
           ],
@@ -57,7 +57,7 @@ const checkEvents = () => {
           if (!eventNotifications.has(event.summary)) {
             sendMessage(
               "-1001800810778",
-              `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo}</em>`,
+              `2 минуты до начала <b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo}</em>`,
               event.description
             );
 
