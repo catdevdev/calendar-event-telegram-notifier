@@ -1,9 +1,10 @@
 import ical from "node-ical";
 import { icsString } from "./ics";
 const directEvents = ical.sync.parseICS(icsString);
-import moment from "moment";
+// import moment from "moment";
 import { Telegraf } from "telegraf";
 import { isTimeBetween } from "./helpers";
+import moment from "moment-timezone";
 
 const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
 const eventNotifications = new Map<string, boolean>();
@@ -46,8 +47,10 @@ const checkEvents = () => {
         eventStart.setMinutes(eventStart.getMinutes() - 2);
         const eventEnd = new Date(event.end);
 
-        const formattedFrom = moment(new Date(event.start)).format("HH:mm");
-        const formattedTo = moment(eventEnd).format("HH:mm");
+        const formattedFrom = moment(event.start)
+          .tz("Europe/Kiev")
+          .format("HH:mm");
+        const formattedTo = moment(eventEnd).tz("Europe/Kiev").format("HH:mm");
 
         if (
           isTimeBetween(eventStart, eventEnd, new Date()) &&
