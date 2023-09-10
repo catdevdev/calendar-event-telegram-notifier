@@ -16,7 +16,7 @@ const sendMessage = (chatId: string, message: string, buttonLink: string) => {
         inline_keyboard: [
           [
             {
-              text: "Lesson link",
+              text: "Link",
               url: buttonLink,
             },
           ],
@@ -75,7 +75,7 @@ const checkEvents = () => {
 
 sendMessage(
   "-1001800810778",
-  `123123`,
+  `Deployed`,
   "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines"
 );
 
