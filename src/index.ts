@@ -57,7 +57,7 @@ const checkEvents = () => {
           if (!eventNotifications.has(event.summary)) {
             sendMessage(
               "-1001800810778",
-              `<b><i>${event.summary}<i></b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰</em>`,
+              `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰</em>`,
               event.description
             );
 
