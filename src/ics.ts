@@ -213,11 +213,8 @@ DTEND:20230910T013500Z
 DTSTAMP:20230910T005424Z
 UID:3e2l1rqeaql0kq0eea2g81os7q@google.com
 CREATED:20230910T005138Z
-DESCRIPTION:<a href="https://www.google.com/url?q=https://stackoverflow.com
- /questions/67052338/gitlab-ci-cd-shell-executor-npm-command-not-found&amp\;
- sa=D&amp\;source=calendar&amp\;usd=2&amp\;usg=AOvVaw0NnQaak2w0kmYLcNSBCUjl"
-  target="_blank">https://stackoverflow.com/questions/67052338/gitlab-ci-cd-
- shell-executor-npm-command-not-found</a>
+DESCRIPTION:https://stackoverflow.com/questions/67052338/gitlab-ci-cd-
+ shell-executor-npm-command-not-found
 LAST-MODIFIED:20230910T005138Z
 SEQUENCE:0
 STATUS:CONFIRMED
@@ -244,9 +241,8 @@ DTEND:20230910T012500Z
 DTSTAMP:20230910T005424Z
 UID:2ack7uhrakarap4f7p1fhtail8@google.com
 CREATED:20230910T005107Z
-DESCRIPTION:<a href="https://stackoverflow.com/questions/67052338/gitlab-ci
- -cd-shell-executor-npm-command-not-found">https://stackoverflow.com/questio
- ns/67052338/gitlab-ci-cd-shell-executor-npm-command-not-found</a>
+DESCRIPTION:https://stackoverflow.com/questio
+ ns/67052338/gitlab-ci-cd-shell-executor-npm-command-not-found
 LAST-MODIFIED:20230910T005405Z
 SEQUENCE:1
 STATUS:CONFIRMED
