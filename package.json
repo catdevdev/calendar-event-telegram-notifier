@@ -13,6 +13,7 @@
     "@types/marked": "^5.0.1",
     "html-entities": "^2.4.0",
     "ical": "^0.8.0",
+    "lodash": "^4.17.21",
     "marked": "^8.0.1",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@types/ical": "^0.8.0",
+    "@types/lodash": "^4.14.198",
     "@types/node": "^20.5.9",
     "typescript": "^5.2.2"
   }

@@ -1,13 +1,15 @@
 import ical from "node-ical";
 import { icsString } from "./ics";
 const directEvents = ical.sync.parseICS(icsString);
-// import moment from "moment";
 import { Telegraf } from "telegraf";
 import { isTimeBetween } from "./helpers";
 import moment from "moment-timezone";
+import _ from "lodash";
 
 const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
-const eventNotifications = new Map<string, boolean>();
+// const eventNotifications = new Map<string, boolean>();
+
+const eventNotifications: string[] = [];
 
 const sendMessage = (chatId: string, message: string, buttonLink: string) => {
   bot.telegram
@@ -57,19 +59,18 @@ const checkEvents = () => {
           moment().format("dddd") ===
             moment(new Date(event.start)).format("dddd")
         ) {
-          if (!eventNotifications.has(event.summary)) {
+          if (!_.includes(eventNotifications, event.summary)) {
             sendMessage(
               "-1001810089811",
+              // "-1001800810778",
               `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰</em>`,
               event.description
             );
 
-            eventNotifications.set(event.summary, true);
+            eventNotifications.push(event.summary);
           }
         } else {
-          if (eventNotifications.has(event.summary)) {
-            eventNotifications.delete(event.summary);
-          }
+          _.remove(eventNotifications, (summary) => summary === event.summary);
         }
       }
     }
@@ -82,6 +83,6 @@ sendMessage(
   "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines"
 );
 
-setInterval(checkEvents, 10000);
+setInterval(checkEvents, 5000);
 
 bot.launch();

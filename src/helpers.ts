@@ -1,32 +1,29 @@
 import moment from "moment";
 
-export const isTimeBetween = (
-  aStartTime: Date,
-  anEndTime: Date,
-  aCurrTime: Date
-) => {
-  // you may pass in aCurrTime or use the *actual* current time
-  var currentTime = !aCurrTime ? moment() : moment(aCurrTime, "HH:mm a");
-  var startTime = moment(aStartTime, "HH:mm a");
-  var endTime = moment(anEndTime, "HH:mm a");
+export function isTimeBetween(eventStart, eventEnd, currentTime) {
+  const startHours = eventStart.getUTCHours();
+  const startMinutes = eventStart.getUTCMinutes();
+  const endHours = eventEnd.getUTCHours();
+  const endMinutes = eventEnd.getUTCMinutes();
+  const currentHours = currentTime.getUTCHours();
+  const currentMinutes = currentTime.getUTCMinutes();
 
-  if (startTime.hour() >= 12 && endTime.hour() <= 12) {
-    endTime.add(1, "days"); // handle spanning days
-  }
+  const eventStartTime = startHours * 60 + startMinutes;
+  const eventEndTime = endHours * 60 + endMinutes;
+  const currentTimeValue = currentHours * 60 + currentMinutes;
 
-  var isBetween = currentTime.isBetween(startTime, endTime);
+  return currentTimeValue >= eventStartTime && currentTimeValue <= eventEndTime;
+}
 
-  /***  testing   
-    startTimeString = startTime.toString();
-    endTimeString = endTime.toString();
-    currentTimeString = currentTime.toString();
+// Example usage
+const eventStart = new Date("2023-09-04T11:48:00.000Z"); // Event starts at 11:48 AM EEST
+const eventEnd = new Date("2023-09-04T15:10:00.000Z"); // Event ends at 03:10 PM EEST
+const currentTime = new Date(); // Current time
 
-    console.log(startTimeString);
-    console.log(endTimeString);
-    console.log(currentTimeString);
-    console.log('\nis '+ currentTimeString  + ' between ' + 
-              startTimeString + ' and ' + endTimeString + ' : ' 
-              + isBetween);
-    ****/
-  return isBetween;
-};
+const isBetween = isTimeBetween(eventStart, eventEnd, currentTime);
+
+if (isBetween) {
+  console.log("The current time is between the event start and end times.");
+} else {
+  console.log("The current time is not between the event start and end times.");
+}

@@ -150,7 +150,7 @@ DESCRIPTION:https://stackoverflow.com/questions/31908527/php-telegram-bot-i
 LAST-MODIFIED:20230908T201933Z
 SEQUENCE:0
 STATUS:CONFIRMED
-SUMMARY:Інформаційна безпека інноваційної діяльності (ІБІД) Лк доц. Кононов
+SUMMARY:Інформаційна1 безпека інноваційної діяльності (ІБІД) Лк доц. Кононов
  ич В.Г.
 TRANSP:OPAQUE
 END:VEVENT
@@ -164,7 +164,7 @@ DESCRIPTION:https://github.com/telegraf/telegraf/issues/1242
 LAST-MODIFIED:20230908T201945Z
 SEQUENCE:4
 STATUS:CONFIRMED
-SUMMARY:Інформаційна безпека інноваційної діяльності (ІБІД) Лк доц. Кононов
+SUMMARY:Інформаційна1 безпека інноваційної діяльності (ІБІД) Лк доц. Кононов
  ич В.Г.
 TRANSP:OPAQUE
 END:VEVENT
