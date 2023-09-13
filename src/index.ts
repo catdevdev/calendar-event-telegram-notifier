@@ -59,6 +59,8 @@ const checkEvents = () => {
           moment().format("dddd") ===
             moment(new Date(event.start)).format("dddd")
         ) {
+          console.log(event.summary);
+          console.log(event.description);
           if (!_.includes(eventNotifications, event.summary)) {
             sendMessage(
               "-1001810089811",
