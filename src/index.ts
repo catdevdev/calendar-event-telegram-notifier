@@ -49,7 +49,7 @@ const checkEvents = () => {
 
       if (directEvents[k].type == "VEVENT") {
         const eventStart = new Date(event.start);
-        eventStart.setMinutes(eventStart.getMinutes() - 8);
+        eventStart.setMinutes(eventStart.getMinutes() - 5);
         const eventEnd = new Date(event.end);
 
         const formattedFrom = moment(event.start)
@@ -66,9 +66,9 @@ const checkEvents = () => {
           console.log(event.description);
           if (!_.includes(eventNotifications, event.summary)) {
             sendMessage(
-              // "-1001810089811",
-              "-1001800810778",
-              `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰ 8 мин</em>`,
+              "-1001810089811",
+              // "-1001800810778",
+              `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰ 5 мин до начала</em>`,
               event.description
             );
 
