@@ -83,7 +83,11 @@ sendMessage(
   "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines"
 );
 
-bot.command("s", () => {
+bot.command("/start", () => {
+  bot.telegram.sendDocument("-1001810089811", "./s.xls");
+});
+
+bot.command("/s", () => {
   bot.telegram.sendDocument("-1001810089811", "./s.xls");
 });
 
