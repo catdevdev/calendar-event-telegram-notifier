@@ -68,7 +68,7 @@ const checkEvents = () => {
             sendMessage(
               // "-1001810089811",
               "-1001800810778",
-              `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰</em>`,
+              `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰ 8 мин</em>`,
               event.description
             );
 
@@ -91,12 +91,12 @@ const checkEvents = () => {
 // console.log(__dirname);
 // bot.telegram.sendDocument("-1001800810778", "../s.xls");
 
-bot.command("s", () => {
-  bot.telegram.sendDocument(
-    "-1001800810778",
-    "https://dropmefiles.com.ua/ua/VvewUQGEa"
-  );
-});
+// bot.command("s", () => {
+//   bot.telegram.sendDocument(
+//     "-1001800810778",
+//     "https://dropmefiles.top/ua/g/1694610836/3cab6b8b2708f469275039d7ad17380c/176b0118b7aacf356577c92606d105f9"
+//   );
+// });
 
 setInterval(checkEvents, 5000);
 
