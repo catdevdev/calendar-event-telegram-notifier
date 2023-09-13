@@ -77,19 +77,18 @@ const checkEvents = () => {
   }
 };
 
-sendMessage(
-  "-1001800810778",
-  `Deployed`,
-  "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines"
-);
+// sendMessage(
+//   "-1001800810778",
+//   `Deployed`,
+//   "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines"
+// );
 
-bot.command("/start", () => {
-  bot.telegram.sendDocument("-1001810089811", "./s.xls");
-});
+// console.log(__dirname);
+// bot.telegram.sendDocument("-1001800810778", "../s.xls");
 
-bot.command("/s", () => {
-  bot.telegram.sendDocument("-1001810089811", "./s.xls");
-});
+// bot.command("s", () => {
+//   bot.telegram.sendDocument("-1001800810778", "../s.xls");
+// });
 
 setInterval(checkEvents, 5000);
 
