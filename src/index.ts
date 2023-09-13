@@ -11,8 +11,8 @@ const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
 
 const eventNotifications: string[] = [];
 
-console.log("__dirname");
-console.log(__dirname);
+console.log("process.cwd()");
+console.log(process.cwd());
 
 const sendMessage = (chatId: string, message: string, buttonLink: string) => {
   bot.telegram
@@ -92,7 +92,10 @@ const checkEvents = () => {
 // bot.telegram.sendDocument("-1001800810778", "../s.xls");
 
 bot.command("s", () => {
-  bot.telegram.sendDocument("-1001800810778", "../s.xls");
+  bot.telegram.sendDocument(
+    "-1001800810778",
+    "https://dropmefiles.com.ua/ua/VvewUQGEa"
+  );
 });
 
 setInterval(checkEvents, 5000);
