@@ -11,6 +11,9 @@ const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
 
 const eventNotifications: string[] = [];
 
+console.log("__dirname");
+console.log(__dirname);
+
 const sendMessage = (chatId: string, message: string, buttonLink: string) => {
   bot.telegram
     .sendMessage(chatId, message, {
@@ -46,7 +49,7 @@ const checkEvents = () => {
 
       if (directEvents[k].type == "VEVENT") {
         const eventStart = new Date(event.start);
-        eventStart.setMinutes(eventStart.getMinutes() - 2);
+        eventStart.setMinutes(eventStart.getMinutes() - 8);
         const eventEnd = new Date(event.end);
 
         const formattedFrom = moment(event.start)
@@ -63,8 +66,8 @@ const checkEvents = () => {
           console.log(event.description);
           if (!_.includes(eventNotifications, event.summary)) {
             sendMessage(
-              "-1001810089811",
-              // "-1001800810778",
+              // "-1001810089811",
+              "-1001800810778",
               `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰</em>`,
               event.description
             );
@@ -88,9 +91,9 @@ const checkEvents = () => {
 // console.log(__dirname);
 // bot.telegram.sendDocument("-1001800810778", "../s.xls");
 
-// bot.command("s", () => {
-//   bot.telegram.sendDocument("-1001800810778", "../s.xls");
-// });
+bot.command("s", () => {
+  bot.telegram.sendDocument("-1001800810778", "../s.xls");
+});
 
 setInterval(checkEvents, 5000);
 
