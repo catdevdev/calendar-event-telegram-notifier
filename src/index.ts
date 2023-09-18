@@ -1,92 +1,79 @@
-import ical from "node-ical";
-import { icsString } from "./ics";
-const directEvents = ical.sync.parseICS(icsString);
-import { Telegraf } from "telegraf";
-import { isTimeBetween } from "./helpers";
+import { getWeekNumber, isTimeBetween } from "./helpers";
 import moment from "moment-timezone";
 import _ from "lodash";
+import { sendLessonNotification, sendMessage } from "./telegram";
 
-const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
-// const eventNotifications = new Map<string, boolean>();
+import { ScheduleItem, fetchAndParseSchedule } from "./parseGoogleSheets";
 
-const eventNotifications: string[] = [];
+const checkSchedule = (schedule: ScheduleItem[]) => {
+  const currentDay = moment().tz("Europe/Kiev").format("dddd");
+  const currentTime = moment().tz("Europe/Kiev").format("HH:mm");
 
-console.log("process.cwd()");
-console.log(process.cwd());
+  const currentDayOfWeek = moment().day() + 1;
 
-const sendMessage = (chatId: string, message: string, buttonLink: string) => {
-  bot.telegram
-    .sendMessage(chatId, message, {
-      parse_mode: "HTML",
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "пара",
-              url: buttonLink,
-            },
-          ],
-        ],
-      },
-    })
-    .then(() => {
-      console.log(`Message sent successfully to ${chatId}`);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
+  const getCurrentWeekName = () => {
+    switch (currentDayOfWeek) {
+      case 1:
+        return "Понедельник";
+      case 2:
+        return "Вторник";
+      case 3:
+        return "Среда";
+      case 4:
+        return "Четверг";
+      case 5:
+        return "Пятница";
+    }
+  };
 
-const checkEvents = () => {
-  for (let k in directEvents) {
-    if (directEvents.hasOwnProperty(k)) {
-      const event = directEvents[k] as unknown as {
-        start: string;
-        end: string;
-        summary: string;
-        description?: string;
-      };
+  for (const item of schedule) {
+    if (item["День недели 🌞"].includes(getCurrentWeekName())) {
+      const [startTime, endTime] = item["Время ⏰"]?.split(" - ") || [];
 
-      if (directEvents[k].type == "VEVENT") {
-        const eventStart = new Date(event.start);
-        eventStart.setMinutes(eventStart.getMinutes() - 5);
-        const eventEnd = new Date(event.end);
+      const fromMoment = moment(startTime, "HH:mm");
+      const fromMomentMinus10Min = fromMoment.subtract(10, "minutes").toDate();
+      const toMoment = moment(endTime, "HH:mm").toDate();
+      const currentTimeMoment = moment(currentTime, "HH:mm").toDate();
 
-        const formattedFrom = moment(event.start)
-          .tz("Europe/Kiev")
-          .format("HH:mm");
-        const formattedTo = moment(eventEnd).tz("Europe/Kiev").format("HH:mm");
+      if (isTimeBetween(fromMomentMinus10Min, toMoment, currentTimeMoment)) {
+        const [startTime, endTime] = item["Время ⏰"].split(" - ");
+        const [startWeek, endWeek] = item["Недели ☀️"].split(" - ");
 
-        if (
-          isTimeBetween(eventStart, eventEnd, new Date()) &&
-          moment().format("dddd") ===
-            moment(new Date(event.start)).format("dddd")
-        ) {
-          console.log(event.summary);
-          console.log(event.description);
-          if (!_.includes(eventNotifications, event.summary)) {
-            sendMessage(
-              "-1001810089811",
-              // "-1001800810778",
-              `<b>${event.summary}</b>\n\n<em>${formattedFrom} - ${formattedTo} ⏰ 5 мин до начала</em>`,
-              event.description
-            );
-
-            eventNotifications.push(event.summary);
-          }
-        } else {
-          _.remove(eventNotifications, (summary) => summary === event.summary);
-        }
+        sendLessonNotification({
+          lessonName: item["Название предмета 📖"],
+          from: startTime,
+          to: endTime,
+          zoomLink: item["Ссылка на пару 🖇️"],
+          telegramGroupLink: item["Ссылка на телеграм группу ☎️"],
+          weekNumber: getWeekNumber(),
+          teacherEmail: item["Имеил препода 📧"],
+          rangeWeekFrom: +startWeek,
+          rangeWeekTo: +endWeek,
+        });
       }
     }
   }
 };
 
-// sendMessage(
-//   "-1001800810778",
-//   `Deployed`,
-//   "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines"
-// );
+sendMessage(
+  `Deployed`,
+  "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines",
+  "-1001800810778"
+);
+
+// sendLessonNotification({
+//   lessonName: `lesson name test`,
+//   from: "10:22",
+//   to: "10:30",
+//   zoomLink:
+//     "https://www.google.com/search?q=await+inside+module&oq=await+inside+module&aqs=chrome..69i57.9402j0j7&sourceid=chrome&ie=UTF-8",
+//   telegramGroupLink:
+//     "https://stackoverflow.com/questions/11704267/in-javascript-how-to-conditionally-add-a-member-to-an-object",
+//   weekNumber: getWeekNumber(),
+//   teacherEmail: "catprogrammer.vlad@gmail.com",
+//   rangeWeekFrom: 3,
+//   rangeWeekTo: 5,
+// });
 
 // console.log(__dirname);
 // bot.telegram.sendDocument("-1001800810778", "../s.xls");
@@ -98,6 +85,12 @@ const checkEvents = () => {
 //   );
 // });
 
-setInterval(checkEvents, 5000);
+const main = async () => {
+  const schedule = await fetchAndParseSchedule();
 
-bot.launch();
+  setInterval(() => checkSchedule(schedule), 5000);
+
+  return schedule;
+};
+
+main();

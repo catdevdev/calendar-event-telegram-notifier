@@ -1,5 +1,3 @@
-import ical from "node-ical";
-
 export const icsString = `
 BEGIN:VCALENDAR
 PRODID:-//Google Inc//Google Calendar 70.9054//EN

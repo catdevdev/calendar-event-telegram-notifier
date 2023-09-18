@@ -1,6 +1,10 @@
 import moment from "moment";
 
-export function isTimeBetween(eventStart, eventEnd, currentTime) {
+export function isTimeBetween(
+  eventStart: Date,
+  eventEnd: Date,
+  currentTime: Date
+) {
   const startHours = eventStart.getUTCHours();
   const startMinutes = eventStart.getUTCMinutes();
   const endHours = eventEnd.getUTCHours();
@@ -27,3 +31,13 @@ if (isBetween) {
 } else {
   console.log("The current time is not between the event start and end times.");
 }
+
+export const getWeekNumber = () => {
+  const currentDate = moment();
+
+  const startDate = moment("2023-09-11");
+
+  const weeksPassed = currentDate.diff(startDate, "weeks");
+
+  return weeksPassed + 1;
+};
