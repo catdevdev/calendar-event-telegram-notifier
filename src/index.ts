@@ -39,17 +39,17 @@ const checkSchedule = (schedule: ScheduleItem[]) => {
         const [startTime, endTime] = item["Время ⏰"].split(" - ");
         const [startWeek, endWeek] = item["Недели ☀️"].split(" - ");
 
-        sendLessonNotification({
-          lessonName: item["Название предмета 📖"],
-          from: startTime,
-          to: endTime,
-          zoomLink: item["Ссылка на пару 🖇️"],
-          telegramGroupLink: item["Ссылка на телеграм группу ☎️"],
-          weekNumber: getWeekNumber(),
-          teacherEmail: item["Имеил препода 📧"],
-          rangeWeekFrom: +startWeek,
-          rangeWeekTo: +endWeek,
-        });
+        // sendLessonNotification({
+        //   lessonName: item["Название предмета 📖"],
+        //   from: startTime,
+        //   to: endTime,
+        //   zoomLink: item["Ссылка на пару 🖇️"],
+        //   telegramGroupLink: item["Ссылка на телеграм группу ☎️"],
+        //   weekNumber: getWeekNumber(),
+        //   teacherEmail: item["Имеил препода 📧"],
+        //   rangeWeekFrom: +startWeek,
+        //   rangeWeekTo: +endWeek,
+        // });
       }
     }
   }
