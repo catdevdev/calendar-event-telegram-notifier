@@ -55,11 +55,11 @@ const checkSchedule = (schedule: ScheduleItem[]) => {
   }
 };
 
-sendMessage(
-  `Deployed`,
-  "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines",
-  "-1001800810778"
-);
+// sendMessage(
+//   `Deployed`,
+//   "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines",
+//   "-1001800810778"
+// );
 
 // sendLessonNotification({
 //   lessonName: `lesson name test`,
