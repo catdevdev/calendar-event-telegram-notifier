@@ -68,7 +68,7 @@ const sendLessonNotification = ({
             ? [{ text: "группа", url: telegramGroupLink }]
             : []),
           {
-            text: "рассписание",
+            text: "расписание",
             url: "https://docs.google.com/spreadsheets/d/19wIQf7PzfAjf4aJTnLfeyyzEHnpNJ-szlG9AyWlV5FA/edit?usp=sharing",
           },
         ],
