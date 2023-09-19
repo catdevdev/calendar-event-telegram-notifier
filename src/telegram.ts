@@ -63,12 +63,14 @@ const sendLessonNotification = ({
     reply_markup: {
       inline_keyboard: [
         [
-          ...(zoomLink && zoomLink !== "-"
-            ? [{ text: "пара", url: zoomLink }]
-            : []),
-          ...(telegramGroupLink && telegramGroupLink !== "-"
+          ...(zoomLink ? [{ text: "пара", url: zoomLink }] : []),
+          ...(telegramGroupLink
             ? [{ text: "группа", url: telegramGroupLink }]
             : []),
+          {
+            text: "рассписание",
+            url: "https://docs.google.com/spreadsheets/d/19wIQf7PzfAjf4aJTnLfeyyzEHnpNJ-szlG9AyWlV5FA/edit?usp=sharing",
+          },
         ],
       ],
     },
