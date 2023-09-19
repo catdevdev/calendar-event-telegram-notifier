@@ -63,8 +63,10 @@ const sendLessonNotification = ({
     reply_markup: {
       inline_keyboard: [
         [
-          ...(zoomLink ? [{ text: "пара", url: zoomLink }] : []),
-          ...(telegramGroupLink
+          ...(zoomLink && zoomLink !== "-"
+            ? [{ text: "пара", url: zoomLink }]
+            : []),
+          ...(telegramGroupLink && telegramGroupLink !== "-"
             ? [{ text: "группа", url: telegramGroupLink }]
             : []),
         ],

@@ -5,11 +5,14 @@ import { sendLessonNotification, sendMessage } from "./telegram";
 
 import { ScheduleItem, fetchAndParseSchedule } from "./parseGoogleSheets";
 
+const notifiedEvents: string[] = [];
+
 const checkSchedule = (schedule: ScheduleItem[]) => {
-  const currentDay = moment().tz("Europe/Kiev").format("dddd");
   const currentTime = moment().tz("Europe/Kiev").format("HH:mm");
 
-  const currentDayOfWeek = moment().day() + 1;
+  const currentDayOfWeek = moment().day();
+
+  console.log(currentDayOfWeek);
 
   const getCurrentWeekName = () => {
     switch (currentDayOfWeek) {
@@ -36,20 +39,38 @@ const checkSchedule = (schedule: ScheduleItem[]) => {
       const currentTimeMoment = moment(currentTime, "HH:mm").toDate();
 
       if (isTimeBetween(fromMomentMinus10Min, toMoment, currentTimeMoment)) {
-        const [startTime, endTime] = item["Время ⏰"].split(" - ");
-        const [startWeek, endWeek] = item["Недели ☀️"].split(" - ");
+        if (
+          !notifiedEvents.includes(
+            item["Название предмета 📖"] + item["Недели ☀️"]
+          )
+        ) {
+          const [startTime, endTime] = item["Время ⏰"].split(" - ");
+          const [startWeek, endWeek] = item["Недели ☀️"].split(" - ");
 
-        // sendLessonNotification({
-        //   lessonName: item["Название предмета 📖"],
-        //   from: startTime,
-        //   to: endTime,
-        //   zoomLink: item["Ссылка на пару 🖇️"],
-        //   telegramGroupLink: item["Ссылка на телеграм группу ☎️"],
-        //   weekNumber: getWeekNumber(),
-        //   teacherEmail: item["Имеил препода 📧"],
-        //   rangeWeekFrom: +startWeek,
-        //   rangeWeekTo: +endWeek,
-        // });
+          console.log(item["Название предмета 📖"]);
+
+          console.log(item["Ссылка на телеграм группу ☎️"]);
+
+          sendLessonNotification({
+            lessonName: item["Название предмета 📖"],
+            from: startTime,
+            to: endTime,
+            zoomLink: item["Ссылка на пару 🖇️"],
+            telegramGroupLink: item["Ссылка на телеграм группу ☎️"],
+            weekNumber: getWeekNumber(),
+            teacherEmail: item["Имеил препода 📧"],
+            rangeWeekFrom: +startWeek,
+            rangeWeekTo: +endWeek,
+          });
+
+          notifiedEvents.push(item["Название предмета 📖"] + item["Недели ☀️"]);
+        }
+      } else {
+        _.remove(
+          notifiedEvents,
+          (lessonId) =>
+            lessonId === item["Название предмета 📖"] + item["Недели ☀️"]
+        );
       }
     }
   }
