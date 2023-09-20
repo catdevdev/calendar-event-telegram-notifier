@@ -1,6 +1,5 @@
 import { Telegraf } from "telegraf";
-
-const bot = new Telegraf("6484523697:AAEdJghBCZ5KOByrLn1MN2ZcxpXm-PXLhpg");
+import { bot } from ".";
 
 export const sendMessage = (
   message: string,
@@ -39,6 +38,8 @@ const sendLessonNotification = ({
   teacherEmail,
   rangeWeekFrom,
   rangeWeekTo,
+  telegramChatId,
+  googleTablePublicLink,
 }: {
   lessonName: string;
   from: string;
@@ -49,6 +50,8 @@ const sendLessonNotification = ({
   teacherEmail?: string;
   rangeWeekFrom: number;
   rangeWeekTo: number;
+  telegramChatId: string;
+  googleTablePublicLink: string;
 }) => {
   const isEven = weekNumber % 2 === 0;
 
@@ -58,27 +61,30 @@ const sendLessonNotification = ({
 
   // -1001810089811
   // -1001800810778
-  bot.telegram.sendMessage("-1001810089811", message, {
-    parse_mode: "HTML",
-    reply_markup: {
-      inline_keyboard: [
-        [
-          ...(zoomLink && zoomLink !== "-"
-            ? [{ text: "пара", url: zoomLink }]
-            : []),
-          ...(telegramGroupLink && telegramGroupLink !== "-"
-            ? [{ text: "группа", url: telegramGroupLink }]
-            : []),
-          {
-            text: "расписание",
-            url: "https://docs.google.com/spreadsheets/d/19wIQf7PzfAjf4aJTnLfeyyzEHnpNJ-szlG9AyWlV5FA/edit?usp=sharing",
-          },
-        ],
-      ],
-    },
-  });
-};
 
-bot.launch();
+  try {
+    bot.telegram.sendMessage(telegramChatId, message, {
+      parse_mode: "HTML",
+      reply_markup: {
+        inline_keyboard: [
+          [
+            ...(zoomLink && zoomLink !== "-"
+              ? [{ text: "пара", url: zoomLink }]
+              : []),
+            ...(telegramGroupLink && telegramGroupLink !== "-"
+              ? [{ text: "группа", url: telegramGroupLink }]
+              : []),
+            {
+              text: "расписание",
+              url: googleTablePublicLink,
+            },
+          ],
+        ],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export { sendLessonNotification };

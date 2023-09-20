@@ -1,0 +1,19 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://weather:fugewjrlwerjweldoifjv4j829v82398h2f9h298d9j2d92j3d889dj28djdovi1221@91.219.61.90:9011/schedules?schema=public"
+}
+
+model Schedule {
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  telegramChatId        String   @unique
+  googleTablePublicLink String
+  googleTableContent    Json?
+}

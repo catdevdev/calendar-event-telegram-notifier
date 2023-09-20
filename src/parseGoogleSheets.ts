@@ -1,8 +1,9 @@
 import PublicGoogleSheetsParser from "public-google-sheets-parser";
+import { Telegraf } from "telegraf";
 
-const spreadsheetId = "19wIQf7PzfAjf4aJTnLfeyyzEHnpNJ-szlG9AyWlV5FA";
+// const spreadsheetId = "19wIQf7PzfAjf4aJTnLfeyyzEHnpNJ-szlG9AyWlV5FA";
 
-const parser = new PublicGoogleSheetsParser(spreadsheetId);
+// const parser = new PublicGoogleSheetsParser(spreadsheetId);
 
 export interface ScheduleItem {
   "День недели 🌞"?: string;
@@ -14,7 +15,11 @@ export interface ScheduleItem {
   "Имеил препода 📧"?: string;
 }
 
-const fetchAndParseSchedule = async (): Promise<ScheduleItem[]> => {
+const fetchAndParseSchedule = async ({
+  parser,
+}: {
+  parser: InstanceType<typeof PublicGoogleSheetsParser>;
+}): Promise<ScheduleItem[]> => {
   const schedule = await parser.parse();
   let currentDay = null;
 
@@ -36,8 +41,6 @@ const fetchAndParseSchedule = async (): Promise<ScheduleItem[]> => {
 
   return schedule as ScheduleItem[];
 };
-
-fetchAndParseSchedule();
 
 export { fetchAndParseSchedule };
 

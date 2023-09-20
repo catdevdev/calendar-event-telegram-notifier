@@ -7,15 +7,18 @@ export function isTimeBetween(
 ) {
   const startHours = eventStart.getUTCHours();
   const startMinutes = eventStart.getUTCMinutes();
+  const startSeconds = eventStart.getUTCSeconds();
   const endHours = eventEnd.getUTCHours();
   const endMinutes = eventEnd.getUTCMinutes();
+  const endSeconds = eventEnd.getUTCSeconds();
   const currentHours = currentTime.getUTCHours();
   const currentMinutes = currentTime.getUTCMinutes();
+  const currentSeconds = currentTime.getUTCSeconds();
 
-  const eventStartTime = startHours * 60 + startMinutes;
-  const eventEndTime = endHours * 60 + endMinutes;
-  const currentTimeValue = currentHours * 60 + currentMinutes;
-
+  const eventStartTime = startHours * 60 + startMinutes + startSeconds / 60;
+  const eventEndTime = endHours * 60 + endMinutes + endSeconds / 60;
+  const currentTimeValue =
+    currentHours * 60 + currentMinutes + currentSeconds / 60;
   return currentTimeValue >= eventStartTime && currentTimeValue <= eventEndTime;
 }
 

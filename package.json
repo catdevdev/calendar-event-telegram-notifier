@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.3.1",
     "@types/marked": "^5.0.1",
     "html-entities": "^2.4.0",
     "ical": "^0.8.0",
@@ -27,7 +28,9 @@
     "@types/ical": "^0.8.0",
     "@types/js-yaml": "^4.0.6",
     "@types/lodash": "^4.14.198",
-    "@types/node": "^20.5.9",
+    "@types/node": "^20.6.2",
+    "prisma": "^5.3.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }
