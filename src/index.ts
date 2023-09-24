@@ -17,8 +17,6 @@ export const bot = new Telegraf(
 
 const notifiedEvents: string[] = [];
 
-const schedules = [] as Schedule[];
-
 const checkSchedule = (schedules: Schedule[]) => {
   const currentTime = moment().tz("Europe/Kiev").format("HH:mm");
   const currentDayOfWeek = moment().day();
@@ -41,8 +39,8 @@ const checkSchedule = (schedules: Schedule[]) => {
   console.log("+++");
 
   schedules.forEach((schedule) => {
-    for (const item of schedule.googleTableContent as any) {
-      // console.log(schedule.googleTableContent);
+    for (const item of schedule.googleTableContent as unknown as Schedule[]) {
+      console.log(schedule.googleTableContent);
 
       const splitTime = item?.["Время ⏰"]
         ? item?.["Время ⏰"]?.split(" - ")
@@ -72,6 +70,9 @@ const checkSchedule = (schedules: Schedule[]) => {
       console.log("splitWeeksNumbers?.[0]");
       console.log(splitWeeksNumbers?.[1]);
 
+      console.log('item["Начало обучения"]');
+      console.log(schedule.googleTableContent[0]["Начало обучения"]);
+
       if (
         item["Время ⏰"] &&
         item["День недели 🌞"] &&
@@ -81,7 +82,8 @@ const checkSchedule = (schedules: Schedule[]) => {
         splitTime?.[0] &&
         splitTime?.[1] &&
         splitWeeksNumbers?.[0] &&
-        splitWeeksNumbers?.[1]
+        splitWeeksNumbers?.[1] &&
+        schedule.googleTableContent[0]["Начало обучения"]
       ) {
         const fromMoment = moment(splitTime[0], "HH:mm");
         const fromMomentMinus10Min = fromMoment
@@ -91,14 +93,37 @@ const checkSchedule = (schedules: Schedule[]) => {
         const toMoment = moment(splitTime[1], "HH:mm").toDate();
         const currentTimeMoment = moment(currentTime, "HH:mm").toDate();
         console.log(+splitWeeksNumbers?.[0]);
-        console.log(+splitWeeksNumbers?.[0] <= getWeekNumber());
+        console.log(
+          +splitWeeksNumbers?.[0] <=
+            getWeekNumber({
+              startEducationDate:
+                schedule.googleTableContent[0]["Начало обучения"],
+            })
+        );
         console.log(+splitWeeksNumbers?.[1]);
-        console.log(+splitWeeksNumbers?.[1] >= getWeekNumber());
+        console.log(
+          +splitWeeksNumbers?.[1] >=
+            getWeekNumber({
+              startEducationDate:
+                schedule.googleTableContent[0]["Начало обучения"],
+            })
+        );
+
+        console.log('item["Начало обучения"]');
+        console.log(item["Начало обучения"]);
 
         if (
           isTimeBetween(fromMomentMinus10Min, toMoment, currentTimeMoment) &&
-          +splitWeeksNumbers?.[0] <= getWeekNumber() &&
-          +splitWeeksNumbers?.[1] >= getWeekNumber()
+          +splitWeeksNumbers?.[0] <=
+            getWeekNumber({
+              startEducationDate:
+                schedule.googleTableContent[0]["Начало обучения"],
+            }) &&
+          +splitWeeksNumbers?.[1] >=
+            getWeekNumber({
+              startEducationDate:
+                schedule.googleTableContent[0]["Начало обучения"],
+            })
         ) {
           if (
             !notifiedEvents.includes(
@@ -119,7 +144,10 @@ const checkSchedule = (schedules: Schedule[]) => {
               to: endTime,
               zoomLink: item["Ссылка на пару 🖇️"],
               telegramGroupLink: item["Ссылка на телеграм группу ☎️"],
-              weekNumber: getWeekNumber(),
+              weekNumber: getWeekNumber({
+                startEducationDate:
+                  schedule.googleTableContent[0]["Начало обучения"],
+              }),
               teacherEmail: item["Имеил препода 📧"],
               rangeWeekFrom: +startWeek,
               rangeWeekTo: +endWeek,

@@ -35,10 +35,14 @@ if (isBetween) {
   console.log("The current time is not between the event start and end times.");
 }
 
-export const getWeekNumber = () => {
+export const getWeekNumber = ({
+  startEducationDate,
+}: {
+  startEducationDate: string;
+}) => {
   const currentDate = moment();
 
-  const startDate = moment("2023-09-11");
+  const startDate = moment(startEducationDate).format("DD.MM.YYYY");
 
   const weeksPassed = currentDate.diff(startDate, "weeks");
 
