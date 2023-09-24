@@ -42,24 +42,63 @@ const checkSchedule = (schedules: Schedule[]) => {
 
   schedules.forEach((schedule) => {
     for (const item of schedule.googleTableContent as any) {
-      if (item["День недели 🌞"].includes(getCurrentWeekName())) {
-        const [startTime, endTime] = item["Время ⏰"]?.split(" - ") || [];
+      // console.log(schedule.googleTableContent);
 
-        const fromMoment = moment(startTime, "HH:mm");
+      const splitTime = item?.["Время ⏰"]
+        ? item?.["Время ⏰"]?.split(" - ")
+        : [null, null];
+
+      const splitWeeksNumbers = item?.["Недели ☀️"]
+        ? item?.["Недели ☀️"]?.split(" - ")
+        : [null, null];
+
+      console.log("=====");
+      console.log("=====");
+      console.log("=====");
+      console.log("Время ⏰");
+      console.log(item["Время ⏰"]);
+      console.log("День недели 🌞");
+      console.log(item["День недели 🌞"]);
+      console.log("Название предмета 📖");
+      console.log(item["Название предмета 📖"]);
+      console.log("Недели ☀️");
+      console.log(item["Недели ☀️"]);
+      console.log("splitTime?.[0];");
+      console.log(splitTime?.[0]);
+      console.log("splitTime?.[1];");
+      console.log(splitTime?.[1]);
+      console.log("splitWeeksNumbers?.[0]");
+      console.log(splitWeeksNumbers?.[0]);
+      console.log("splitWeeksNumbers?.[0]");
+      console.log(splitWeeksNumbers?.[1]);
+
+      if (
+        item["Время ⏰"] &&
+        item["День недели 🌞"] &&
+        item["Название предмета 📖"] &&
+        item["Недели ☀️"] &&
+        item["День недели 🌞"].includes(getCurrentWeekName()) &&
+        splitTime?.[0] &&
+        splitTime?.[1] &&
+        splitWeeksNumbers?.[0] &&
+        splitWeeksNumbers?.[1]
+      ) {
+        const fromMoment = moment(splitTime[0], "HH:mm");
         const fromMomentMinus10Min = fromMoment
           .subtract(10, "minutes")
           .toDate();
 
-        const toMoment = moment(endTime, "HH:mm").toDate();
+        const toMoment = moment(splitTime[1], "HH:mm").toDate();
         const currentTimeMoment = moment(currentTime, "HH:mm").toDate();
-
-        console.log(item["Время ⏰"]);
-        console.log(item["Недели ☀️"]);
+        console.log(+splitWeeksNumbers?.[0]);
+        console.log(+splitWeeksNumbers?.[0] <= getWeekNumber());
+        console.log(+splitWeeksNumbers?.[1]);
+        console.log(+splitWeeksNumbers?.[1] >= getWeekNumber());
 
         if (
           isTimeBetween(fromMomentMinus10Min, toMoment, currentTimeMoment) &&
-          item["Время ⏰"] &&
-          item["Недели ☀️"]
+          +splitWeeksNumbers?.[0] <= getWeekNumber() &&
+          +splitWeeksNumbers?.[1] >= getWeekNumber()
         ) {
           if (
             !notifiedEvents.includes(
@@ -71,8 +110,6 @@ const checkSchedule = (schedules: Schedule[]) => {
           ) {
             const [startTime, endTime] = item["Время ⏰"].split(" - ");
             const [startWeek, endWeek] = item["Недели ☀️"].split(" - ");
-
-            // console.log(item["Недели ☀️"]);
 
             console.log("error");
 
@@ -112,36 +149,6 @@ const checkSchedule = (schedules: Schedule[]) => {
     }
   });
 };
-
-// sendMessage(
-//   `Deployed`,
-//   "https://gitlab.com/weather8855635/calendar-event-telegram-notifier/-/pipelines",
-//   "-1001800810778"
-// );
-
-// sendLessonNotification({
-//   lessonName: `lesson name test`,
-//   from: "10:22",
-//   to: "10:30",
-//   zoomLink:
-//     "https://www.google.com/search?q=await+inside+module&oq=await+inside+module&aqs=chrome..69i57.9402j0j7&sourceid=chrome&ie=UTF-8",
-//   telegramGroupLink:
-//     "https://stackoverflow.com/questions/11704267/in-javascript-how-to-conditionally-add-a-member-to-an-object",
-//   weekNumber: getWeekNumber(),
-//   teacherEmail: "catprogrammer.vlad@gmail.com",
-//   rangeWeekFrom: 3,
-//   rangeWeekTo: 5,
-// });
-
-// console.log(__dirname);
-// bot.telegram.sendDocument("-1001800810778", "../s.xls");
-
-// bot.command("s", () => {
-//   bot.telegram.sendDocument(
-//     "-1001800810778",
-//     "https://dropmefiles.top/ua/g/1694610836/3cab6b8b2708f469275039d7ad17380c/176b0118b7aacf356577c92606d105f9"
-//   );
-// });
 
 bot.start((ctx) => {
   ctx.reply(
@@ -258,9 +265,8 @@ bot.command("register_schedule", async (ctx) => {
         ],
       },
     });
-    main();
   }
-
+  main();
   prisma.$disconnect();
 });
 
