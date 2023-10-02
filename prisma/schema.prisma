@@ -6,6 +6,7 @@ generator client {
 }
 
 // prod
+
 datasource db {
   provider = "postgresql"
   url      = "postgresql://weather:fugewjrlwerjweldoifjv4j829v82398h2f9h298d9j2d92j3d889dj28djdovi1221@91.219.61.90:9011/schedules?schema=public"
