@@ -33,6 +33,10 @@ const checkSchedule = (schedules: Schedule[]) => {
         return "Четверг";
       case 5:
         return "Пятница";
+      case 6:
+        return "Суббота";
+      case 6:
+        return "Воскресенье";
     }
   };
 
