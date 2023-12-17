@@ -9,4 +9,4 @@ deploy:
   script:
     - npm install
     - pm2 delete $PM2_APP_NAME || true
-    - pm2 start npm --name $PM2_APP_NAME -- run start
+    - PM2_LOG_PATH="/dev/null" pm2 start npm --name $PM2_APP_NAME -- run start
