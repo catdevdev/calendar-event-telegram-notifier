@@ -1,0 +1,26 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Delete existing PM2 process
+        run: pm2 delete ${{ env.PM2_APP_NAME }} || true
+        env:
+          PM2_APP_NAME: your_app_name
+
+      - name: Start application with PM2
+        run: PM2_LOG_PATH="/dev/null" pm2 start npm --name ${{ env.PM2_APP_NAME }} -- run start
+        env:
+          PM2_APP_NAME: your_app_name
