@@ -8,7 +8,7 @@ generator client {
 // prod
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://weather:fugewjrlwerjweldoifjv4j829v82398h2f9h298d9j2d92j3d889dj28djdovi1221@109.200.237.153:9012/schedules?schema=public"
+  url      = "postgresql://schedule:fugewjrlwerjweldoifjv4j829v82398h2f9h298d9j2d92j3d889dj28djdovi1221@109.200.237.153:9011/schedule?schema=public"
 }
 
 // dev
