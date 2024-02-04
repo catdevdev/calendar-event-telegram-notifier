@@ -15,6 +15,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install pm2
+        run: npm install pm2 -g
+
       - name: Delete existing PM2 process
         run: npx pm2 delete ${{ env.PM2_APP_NAME }} || true
         env:
