@@ -24,9 +24,9 @@ jobs:
       - name: Delete existing PM2 process
         run: npx pm2 delete ${{ env.PM2_APP_NAME }} || true
         env:
-          PM2_APP_NAME: your_app_name
+          PM2_APP_NAME: schedule_app
 
       - name: Start application with PM2
         run: PM2_LOG_PATH="/dev/null" npx pm2 start npm --name ${{ env.PM2_APP_NAME }} -- run start
         env:
-          PM2_APP_NAME: your_app_name
+          PM2_APP_NAME: schedule_app
