@@ -40,9 +40,11 @@ export const getWeekNumber = ({
 }: {
   startEducationDate: string;
 }) => {
-  const currentDate = moment();
+  const [day, month, year] = startEducationDate.split(".");
+  const isoFormattedStartDate = `${year}-${month}-${day}`;
 
-  const startDate = moment(startEducationDate).format("DD.MM.YYYY");
+  const currentDate = moment();
+  const startDate = moment(isoFormattedStartDate, "YYYY-MM-DD");
 
   const weeksPassed = currentDate.diff(startDate, "weeks");
 

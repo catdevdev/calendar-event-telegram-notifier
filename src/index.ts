@@ -41,12 +41,19 @@ const checkSchedule = (schedules: Schedule[]) => {
     }
   };
 
-  console.log("+++");
+  console.log(
+    `  getWeekNumber({
+      startEducationDate: "04.09.2023",
+    })  `
+  );
+  console.log(
+    getWeekNumber({
+      startEducationDate: "04.09.2023",
+    })
+  );
 
   schedules.forEach((schedule) => {
     for (const item of schedule.googleTableContent as unknown as Schedule[]) {
-      console.log(schedule.googleTableContent);
-
       const splitTime = item?.["Время ⏰"]
         ? item?.["Время ⏰"]?.split(" - ")
         : [null, null];
@@ -54,29 +61,6 @@ const checkSchedule = (schedules: Schedule[]) => {
       const splitWeeksNumbers = item?.["Недели ☀️"]
         ? item?.["Недели ☀️"]?.split(" - ")
         : [null, null];
-
-      console.log("=====");
-      console.log("=====");
-      console.log("=====");
-      console.log("Время ⏰");
-      console.log(item["Время ⏰"]);
-      console.log("День недели 🌞");
-      console.log(item["День недели 🌞"]);
-      console.log("Название предмета 📖");
-      console.log(item["Название предмета 📖"]);
-      console.log("Недели ☀️");
-      console.log(item["Недели ☀️"]);
-      console.log("splitTime?.[0];");
-      console.log(splitTime?.[0]);
-      console.log("splitTime?.[1];");
-      console.log(splitTime?.[1]);
-      console.log("splitWeeksNumbers?.[0]");
-      console.log(splitWeeksNumbers?.[0]);
-      console.log("splitWeeksNumbers?.[0]");
-      console.log(splitWeeksNumbers?.[1]);
-
-      console.log('item["Начало обучения"]');
-      console.log(schedule.googleTableContent[0]["Начало обучения"]);
 
       if (
         item["Время ⏰"] &&
@@ -97,25 +81,6 @@ const checkSchedule = (schedules: Schedule[]) => {
 
         const toMoment = moment(splitTime[1], "HH:mm").toDate();
         const currentTimeMoment = moment(currentTime, "HH:mm").toDate();
-        console.log(+splitWeeksNumbers?.[0]);
-        console.log(
-          +splitWeeksNumbers?.[0] <=
-            getWeekNumber({
-              startEducationDate:
-                schedule.googleTableContent[0]["Начало обучения"],
-            })
-        );
-        console.log(+splitWeeksNumbers?.[1]);
-        console.log(
-          +splitWeeksNumbers?.[1] >=
-            getWeekNumber({
-              startEducationDate:
-                schedule.googleTableContent[0]["Начало обучения"],
-            })
-        );
-
-        console.log('item["Начало обучения"]');
-        console.log(item["Начало обучения"]);
 
         if (
           isTimeBetween(fromMomentMinus10Min, toMoment, currentTimeMoment) &&
@@ -140,8 +105,6 @@ const checkSchedule = (schedules: Schedule[]) => {
           ) {
             const [startTime, endTime] = item["Время ⏰"].split(" - ");
             const [startWeek, endWeek] = item["Недели ☀️"].split(" - ");
-
-            console.log("error");
 
             sendLessonNotification({
               lessonName: item["Название предмета 📖"],
@@ -367,11 +330,8 @@ const main = async () => {
   }
 
   intervalId = setInterval(() => {
-    console.log("test");
     checkSchedule(schedules);
   }, 5000);
-  console.log("intervalId");
-  console.log(intervalId);
 };
 
 main();
