@@ -1,4 +1,4 @@
-name: Deploy Application
+name: Build and Redeploy Docker Container
 
 on:
   push:
@@ -7,26 +7,17 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted # Ensure this matches your self-hosted runner's label
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm install
+      - name: Build Docker image
+        run: docker build -t your-app-name .
 
-      - name: Update prisma
-        run: npx prisma migrate dev --name init
+      - name: Remove existing container
+        run: docker rm -f your-container-name || true
 
-      - name: Install pm2
-        run: npm install pm2 -g
-
-      - name: Delete existing PM2 process
-        run: npx pm2 delete ${{ env.PM2_APP_NAME }} || true
-        env:
-          PM2_APP_NAME: schedule_app
-
-      - name: Start application with PM2
-        run: PM2_LOG_PATH="/dev/null" npx pm2 start npm --name ${{ env.PM2_APP_NAME }} -- run start
-        env:
-          PM2_APP_NAME: schedule_app
+      - name: Run Docker container
+        run: |
+          docker run -d --name your-container-name --restart unless-stopped -p 3000:3000 your-app-name
